@@ -18,7 +18,7 @@ public class Square {
 
     @Override
     public String toString() {
-        return isEmpty() ? "_ " : piece.toString();
+        return isEmpty() ? "_" : piece.toString();
     }
 
     boolean isEmpty() {

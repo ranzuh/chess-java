@@ -9,7 +9,38 @@ public class Piece {
 
     @Override
     public String toString() {
-        return color.toString().substring(0,1) + type.toString().substring(0,1);
+        if (color == Color.WHITE) {
+            switch (type) {
+                case PAWN:
+                    return "♙";
+                case ROOK:
+                    return "♖";
+                case KNIGHT:
+                    return "♘";
+                case BISHOP:
+                    return "♗";
+                case QUEEN:
+                    return "♕";
+                case KING:
+                    return "♔";
+            }
+        } else {
+            switch (type) {
+                case PAWN:
+                    return "♟";
+                case ROOK:
+                    return "♜";
+                case KNIGHT:
+                    return "♞";
+                case BISHOP:
+                    return "♝";
+                case QUEEN:
+                    return "♛";
+                case KING:
+                    return "♚";
+            }
+        }
+        return "error";
     }
 }
 

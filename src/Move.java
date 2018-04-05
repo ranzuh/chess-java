@@ -31,6 +31,7 @@ public class Move {
             case RIGHT:
                 newX = oldX + 1;
                 newY = oldY;
+                break;
             case NE:
                 newX = oldX + 1;
                 newY = oldY - 1;
@@ -50,9 +51,17 @@ public class Move {
         }
     }
 
-
+    @Override
+    public String toString() {
+        return "Move{" +
+                "oldX=" + oldX +
+                ", oldY=" + oldY +
+                ", newX=" + newX +
+                ", newY=" + newY +
+                '}';
+    }
 }
 
 enum Direction {
-    UP, DOWN, LEFT, RIGHT, NE, SE, SW, NW
+    UP, DOWN, LEFT, RIGHT, NE, SE, SW, NW;
 }
