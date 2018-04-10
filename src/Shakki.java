@@ -1,36 +1,36 @@
+import java.lang.instrument.Instrumentation;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Shakki {
     public static void main(String[] args) {
         Position pos = new Position();
-        System.out.println(pos);
 
-        pos = pos.result(new Move(0, 0, Direction.RIGHT));
-        Position posCopy = new Position(pos.getBoard());
-        System.out.println(pos);
-        System.out.println(posCopy);
+        Player human = new HumanPlayer("human");
 
-        pos = pos.result(new Move(1, 0, Direction.RIGHT));
-        posCopy = posCopy.result(new Move(1, 0, Direction.LEFT));
+        Position poscopy = new Position(pos.getBoard());
 
-        System.out.println(pos);
-        System.out.println(posCopy);
-
-        ArrayList<Move> legalMoves = pos.getLegalMoves(Color.WHITE);
-
-        System.out.println(legalMoves);
+        for (int i = 0; i < 10; i++) {
+            System.out.println(pos);
+            pos.printLegalMoves(Color.WHITE);
+            Move m = human.chooseMove(pos.getLegalMoves(Color.WHITE));
+            pos.result(m);
+        }
 
 
+        System.out.println(poscopy);
+
+
+//
 //        ArrayList<Move> legalMoves = pos.getLegalMoves(Color.WHITE);
 //
-//        for (int i = 0; i < legalMoves.size(); i++) {
+//        for (int i = 0; i < le1galMoves.size(); i++) {
 //            Move m = legalMoves.get(i);
 //            pos.result(m);
 //            System.out.println(pos);
-//            pos = new Position();
-//        }
-//
+//            pos = new Position(savedpos.getBoard());
+//       }
+
 //        legalMoves = pos.getLegalMoves(Color.BLACK);
 //
 //        for (int i = 0; i < legalMoves.size(); i++) {
@@ -39,6 +39,7 @@ public class Shakki {
 //            System.out.println(pos);
 //            pos = new Position();
 //        }
+
 
 
 

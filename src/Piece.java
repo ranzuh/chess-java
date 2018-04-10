@@ -12,32 +12,32 @@ public class Piece {
         if (color == Color.WHITE) {
             switch (type) {
                 case PAWN:
-                    return "♙";
+                    return "P";
                 case ROOK:
-                    return "♖";
+                    return "R";
                 case KNIGHT:
-                    return "♘";
+                    return "N";
                 case BISHOP:
-                    return "♗";
+                    return "B";
                 case QUEEN:
-                    return "♕";
+                    return "Q";
                 case KING:
-                    return "♔";
+                    return "K";
             }
         } else {
             switch (type) {
                 case PAWN:
-                    return "♟";
+                    return "p";
                 case ROOK:
-                    return "♜";
+                    return "r";
                 case KNIGHT:
-                    return "♞";
+                    return "n";
                 case BISHOP:
-                    return "♝";
+                    return "b";
                 case QUEEN:
-                    return "♛";
+                    return "q";
                 case KING:
-                    return "♚";
+                    return "k";
             }
         }
         return "error";

@@ -24,4 +24,13 @@ public class Square {
     boolean isEmpty() {
         return piece == null;
     }
+
+    public Square deepCopy () {
+        if(isEmpty()) {
+            return new Square();
+        }
+        else {
+            return new Square(new Piece(piece.color, piece.type));
+        }
+    }
 }

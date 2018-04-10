@@ -6,7 +6,6 @@ import java.util.Arrays;
 public class Position {
     private Square[][] board;
 
-
     // initial position (state)
     public Position() {
         board = new Square[8][8];
@@ -17,35 +16,36 @@ public class Position {
             }
         }
 
+        board[0][0].setPiece(new Piece(Color.WHITE, Type.KING));
+        board[0][1].setPiece(new Piece(Color.BLACK, Type.KING));
 
-//        board[0][0].setPiece(new Piece(Color.BLACK, Type.ROOK));
-//        board[0][1].setPiece(new Piece(Color.BLACK, Type.KNIGHT));
-//        board[0][2].setPiece(new Piece(Color.BLACK, Type.BISHOP));
-//        board[0][3].setPiece(new Piece(Color.BLACK, Type.QUEEN));
-//        board[0][4].setPiece(new Piece(Color.BLACK, Type.KING));
-//        board[0][5].setPiece(new Piece(Color.BLACK, Type.BISHOP));
-//        board[0][6].setPiece(new Piece(Color.BLACK, Type.KNIGHT));
-//        board[0][7].setPiece(new Piece(Color.BLACK, Type.ROOK));
+
+        board[0][0].setPiece(new Piece(Color.BLACK, Type.ROOK));
+        board[0][1].setPiece(new Piece(Color.BLACK, Type.KNIGHT));
+        board[0][2].setPiece(new Piece(Color.BLACK, Type.BISHOP));
+        board[0][3].setPiece(new Piece(Color.BLACK, Type.QUEEN));
+        board[0][4].setPiece(new Piece(Color.BLACK, Type.KING));
+        board[0][5].setPiece(new Piece(Color.BLACK, Type.BISHOP));
+        board[0][6].setPiece(new Piece(Color.BLACK, Type.KNIGHT));
+        board[0][7].setPiece(new Piece(Color.BLACK, Type.ROOK));
 //
 //        for (int i = 0; i < 8; i++) {
 //            board[1][i].setPiece(new Piece(Color.BLACK, Type.PAWN));
 //        }
 //
-//        board[7][0].setPiece(new Piece(Color.WHITE, Type.ROOK));
-//        board[7][1].setPiece(new Piece(Color.WHITE, Type.KNIGHT));
-//        board[7][2].setPiece(new Piece(Color.WHITE, Type.BISHOP));
-//        board[7][3].setPiece(new Piece(Color.WHITE, Type.QUEEN));
-//        board[7][4].setPiece(new Piece(Color.WHITE, Type.KING));
-//        board[7][5].setPiece(new Piece(Color.WHITE, Type.BISHOP));
-//        board[7][6].setPiece(new Piece(Color.WHITE, Type.KNIGHT));
-//        board[7][7].setPiece(new Piece(Color.WHITE, Type.ROOK));
+        board[7][0].setPiece(new Piece(Color.WHITE, Type.ROOK));
+        board[7][1].setPiece(new Piece(Color.WHITE, Type.KNIGHT));
+        board[7][2].setPiece(new Piece(Color.WHITE, Type.BISHOP));
+        board[7][3].setPiece(new Piece(Color.WHITE, Type.QUEEN));
+        board[7][4].setPiece(new Piece(Color.WHITE, Type.KING));
+        board[7][5].setPiece(new Piece(Color.WHITE, Type.BISHOP));
+        board[7][6].setPiece(new Piece(Color.WHITE, Type.KNIGHT));
+        board[7][7].setPiece(new Piece(Color.WHITE, Type.ROOK));
 //
 //        for (int i = 0; i < 8; i++) {
 //            board[6][i].setPiece(new Piece(Color.WHITE, Type.PAWN));
 //        }
 
-        board[0][0].setPiece(new Piece(Color.WHITE, Type.KING));
-        board[0][1].setPiece(new Piece(Color.BLACK, Type.KING));
 
 
     }
@@ -54,7 +54,7 @@ public class Position {
         Square[][] boardCopy = new Square[8][8];
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                boardCopy[i][j] = board[i][j];
+                boardCopy[i][j] = board[i][j].deepCopy();
             }
         }
         this.board = boardCopy;
@@ -73,7 +73,7 @@ public class Position {
     }
 
     public Piece getPieceAt(int x, int y) {
-        return board[x][y].getPiece();
+        return board[y][x].getPiece();
     }
 
     public Location getPieceLocation(Piece piece) {
@@ -106,6 +106,16 @@ public class Position {
         }
 
         return pieces;
+    }
+
+    void printLegalMoves(Color color) {
+        ArrayList<Move> legalMoves = getLegalMoves(color);
+
+        for (int i = 0; i < legalMoves.size(); i++) {
+
+            System.out.println("Move " + i + ": " + getPieceAt(legalMoves.get(i).oldX, legalMoves.get(i).oldY).type.toString() + " to " + legalMoves.get(i).newX +
+            ", " + legalMoves.get(i).newY);
+        }
     }
 
     ArrayList<Move> getLegalMoves(Color color) {
@@ -154,7 +164,12 @@ public class Position {
                         while (m.newX >= 0 && m.newX <= 7 && m.newY >= 0 && m.newY <= 7) {
                             if (board[m.newY][m.newX].isEmpty()) {
                                 legalMoves.add(new Move(x, y, m.newX, m.newY));
-                            } else {
+                            }
+                            else if (board[m.newY][m.newX].getPiece().color != color){
+                                legalMoves.add(new Move(x, y, m.newX, m.newY));
+                                break;
+                            }
+                            else {
                                 break;
                             }
                             m = new Move(m.newX, m.newY, dir);
@@ -179,7 +194,7 @@ public class Position {
 
                     for (Move m : moves) {
                         if (m.newX >= 0 && m.newX <= 7 && m.newY >= 0 && m.newY <= 7) {
-                            if (board[m.newY][m.newX].isEmpty()) {
+                            if (board[m.newY][m.newX].isEmpty() || board[m.newY][m.newX].getPiece().color != color) {
                                 legalMoves.add(m);
                             }
                         }
@@ -194,7 +209,13 @@ public class Position {
                         while (m.newX >= 0 && m.newX <= 7 && m.newY >= 0 && m.newY <= 7) {
                             if (board[m.newY][m.newX].isEmpty()) {
                                 legalMoves.add(new Move(x, y, m.newX, m.newY));
-                            } else {
+
+                            }
+                            else if (board[m.newY][m.newX].getPiece().color != color){
+                                legalMoves.add(new Move(x, y, m.newX, m.newY));
+                                break;
+                            }
+                            else {
                                 break;
                             }
                             m = new Move(m.newX, m.newY, dir);
@@ -211,7 +232,12 @@ public class Position {
                             if (board[m.newY][m.newX].isEmpty()) {
                                 legalMoves.add(new Move(x, y, m.newX, m.newY));
 
-                            } else {
+                            }
+                            else if (board[m.newY][m.newX].getPiece().color != color){
+                                legalMoves.add(new Move(x, y, m.newX, m.newY));
+                                break;
+                            }
+                            else {
                                 break;
                             }
                             m = new Move(m.newX, m.newY, dir);
