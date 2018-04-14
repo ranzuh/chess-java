@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 public class ComputerPlayer extends Player {
 
@@ -7,8 +8,10 @@ public class ComputerPlayer extends Player {
     }
 
     @Override
-    Move chooseMove(ArrayList<Move> legalMoves) {
-        return null;
+    Move chooseMove(Position pos) {
+        Random random = new Random();
+        ArrayList<Move> legalMoves = pos.getLegalMoves();
+        return legalMoves.get(random.nextInt(legalMoves.size()));
     }
 
 

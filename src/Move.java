@@ -11,6 +11,17 @@ public class Move {
         this.newY = newY;
     }
 
+    public Move(String move) {
+        String letters = "abcdefgh";
+
+        this.oldX = letters.indexOf(move.charAt(0));
+        this.oldY = Character.getNumericValue(move.charAt(1));
+        this.newX = letters.indexOf(move.charAt(3));
+        this.newY = Character.getNumericValue(move.charAt(4));
+
+
+    }
+
     public Move(int oldX, int oldY, Direction dir) {
         this.oldX = oldX;
         this.oldY = oldY;
@@ -53,13 +64,21 @@ public class Move {
 
     @Override
     public String toString() {
-        return "Move{" +
-                "oldX=" + oldX +
-                ", oldY=" + oldY +
-                ", newX=" + newX +
-                ", newY=" + newY +
-                '}';
+        String letters = "abcdefgh";
+        return "" + letters.charAt(oldX) + oldY + " " + letters.charAt(newX) + newY;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Move move = (Move) o;
+        return oldX == move.oldX &&
+                oldY == move.oldY &&
+                newX == move.newX &&
+                newY == move.newY;
+    }
+
 }
 
 enum Direction {

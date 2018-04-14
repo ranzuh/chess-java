@@ -7,5 +7,5 @@ public abstract class Player {
         this.name = name;
     }
 
-    abstract Move chooseMove(ArrayList<Move> legalMoves);
+    abstract Move chooseMove(Position pos);
 }

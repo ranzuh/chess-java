@@ -6,8 +6,16 @@ import java.util.Arrays;
 public class Position {
     private Square[][] board;
 
+    public Color getMovesNext() {
+        return movesNext;
+    }
+
+    private Color movesNext;
+
     // initial position (state)
     public Position() {
+        movesNext = Color.WHITE;
+
         board = new Square[8][8];
 
         for (int i = 0; i < 8; i++) {
@@ -50,26 +58,33 @@ public class Position {
 
     }
 
-    public Position(Square[][] board) {
+    // copy position with this constructor
+    public Position(Position pos) {
         Square[][] boardCopy = new Square[8][8];
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                boardCopy[i][j] = board[i][j].deepCopy();
+                boardCopy[i][j] = pos.board[i][j].deepCopy();
             }
         }
         this.board = boardCopy;
+        this.movesNext = pos.movesNext;
     }
 
     public Position result(Move move) {
-        Piece p = board[move.oldY][move.oldX].getPiece();
-        board[move.oldY][move.oldX].setPiece(null);
-        board[move.newY][move.newX].setPiece(p);
+        Position posCopy = new Position(this);
 
-        return new Position(board);
-    }
+        Piece p = posCopy.board[move.oldY][move.oldX].getPiece();
+        posCopy.board[move.oldY][move.oldX].setPiece(null);
+        posCopy.board[move.newY][move.newX].setPiece(p);
 
-    public Square[][] getBoard() {
-        return board;
+        if (posCopy.movesNext == Color.WHITE) {
+            posCopy.movesNext = Color.BLACK;
+        }
+        else {
+            posCopy.movesNext = Color.WHITE;
+        }
+
+        return posCopy;
     }
 
     public Piece getPieceAt(int x, int y) {
@@ -91,14 +106,14 @@ public class Position {
         return null;
     }
 
-    public ArrayList<Piece> getPieces(Color color) {
+    public ArrayList<Piece> getPieces() {
         ArrayList<Piece> pieces = new ArrayList<>();
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 if (!board[i][j].isEmpty()) {
                     Piece p = board[i][j].getPiece();
-                    if (p.color == color) {
+                    if (p.color == movesNext) {
                         pieces.add(p);
                     }
                 }
@@ -108,8 +123,8 @@ public class Position {
         return pieces;
     }
 
-    void printLegalMoves(Color color) {
-        ArrayList<Move> legalMoves = getLegalMoves(color);
+    void printLegalMoves() {
+        ArrayList<Move> legalMoves = getLegalMoves();
 
         for (int i = 0; i < legalMoves.size(); i++) {
 
@@ -118,11 +133,16 @@ public class Position {
         }
     }
 
-    ArrayList<Move> getLegalMoves(Color color) {
+    void printMove(Move move) {
+        System.out.println(getPieceAt(move.oldX, move.oldY).type.toString() + " to " + move.newX +
+                ", " + move.newY);
+    }
+
+    ArrayList<Move> getLegalMoves() {
 
         ArrayList<Move> legalMoves = new ArrayList<>();
 
-        for (Piece piece : getPieces(color)) {
+        for (Piece piece : getPieces()) {
             Type type = piece.type;
 
             int x = getPieceLocation(piece).x;
@@ -132,7 +152,7 @@ public class Position {
             switch (type) {
                 case PAWN:
 
-                    if (color == Color.WHITE) {
+                    if (movesNext == Color.WHITE) {
                         if (y == 6) {
                             legalMoves.add(new Move(x, y, x, y - 2));
                             legalMoves.add(new Move(x, y, x, y - 1));
@@ -165,7 +185,7 @@ public class Position {
                             if (board[m.newY][m.newX].isEmpty()) {
                                 legalMoves.add(new Move(x, y, m.newX, m.newY));
                             }
-                            else if (board[m.newY][m.newX].getPiece().color != color){
+                            else if (board[m.newY][m.newX].getPiece().color != movesNext){
                                 legalMoves.add(new Move(x, y, m.newX, m.newY));
                                 break;
                             }
@@ -194,7 +214,7 @@ public class Position {
 
                     for (Move m : moves) {
                         if (m.newX >= 0 && m.newX <= 7 && m.newY >= 0 && m.newY <= 7) {
-                            if (board[m.newY][m.newX].isEmpty() || board[m.newY][m.newX].getPiece().color != color) {
+                            if (board[m.newY][m.newX].isEmpty() || board[m.newY][m.newX].getPiece().color != movesNext) {
                                 legalMoves.add(m);
                             }
                         }
@@ -211,7 +231,7 @@ public class Position {
                                 legalMoves.add(new Move(x, y, m.newX, m.newY));
 
                             }
-                            else if (board[m.newY][m.newX].getPiece().color != color){
+                            else if (board[m.newY][m.newX].getPiece().color != movesNext){
                                 legalMoves.add(new Move(x, y, m.newX, m.newY));
                                 break;
                             }
@@ -233,7 +253,7 @@ public class Position {
                                 legalMoves.add(new Move(x, y, m.newX, m.newY));
 
                             }
-                            else if (board[m.newY][m.newX].getPiece().color != color){
+                            else if (board[m.newY][m.newX].getPiece().color != movesNext){
                                 legalMoves.add(new Move(x, y, m.newX, m.newY));
                                 break;
                             }
@@ -251,7 +271,7 @@ public class Position {
                     for (Direction dir : Direction.values()) {
                         Move m = new Move(x, y, dir);
                         if (m.newX >= 0 && m.newX <= 7 && m.newY >= 0 && m.newY <= 7) {
-                            if (board[m.newY][m.newX].isEmpty() || board[m.newY][m.newX].getPiece().color != color) {
+                            if (board[m.newY][m.newX].isEmpty() || board[m.newY][m.newX].getPiece().color != movesNext) {
                                 legalMoves.add(m);
                             }
                         }
@@ -267,7 +287,7 @@ public class Position {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("  0 1 2 3 4 5 6 7 \n");
+        StringBuilder sb = new StringBuilder("  a b c d e f g h \n");
         int i = 0;
 
         for (Square[] row : board) {
@@ -278,7 +298,7 @@ public class Position {
             sb.append(i + "\n");
             i++;
         }
-        sb.append("  0 1 2 3 4 5 6 7 \n");
+        sb.append("  a b c d e f g h \n");
         return sb.toString();
     }
 }
