@@ -4,14 +4,14 @@ public class Move {
     int newX;
     int newY;
 
-    public Move(int oldX, int oldY, int newX, int newY) {
+    Move(int oldX, int oldY, int newX, int newY) {
         this.oldX = oldX;
         this.oldY = oldY;
         this.newX = newX;
         this.newY = newY;
     }
 
-    public Move(String move) {
+    Move(String move) {
         String letters = "abcdefgh";
 
         this.oldX = letters.indexOf(move.charAt(0));
@@ -22,7 +22,7 @@ public class Move {
 
     }
 
-    public Move(int oldX, int oldY, Direction dir) {
+    Move(int oldX, int oldY, Direction dir) {
         this.oldX = oldX;
         this.oldY = oldY;
 

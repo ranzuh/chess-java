@@ -3,7 +3,7 @@ import java.util.Random;
 
 public class ComputerPlayer extends Player {
 
-    public ComputerPlayer(String name) {
+    ComputerPlayer(String name) {
         super(name);
     }
 
@@ -13,6 +13,5 @@ public class ComputerPlayer extends Player {
         ArrayList<Move> legalMoves = pos.getLegalMoves();
         return legalMoves.get(random.nextInt(legalMoves.size()));
     }
-
 
 }

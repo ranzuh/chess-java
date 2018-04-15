@@ -1,15 +1,11 @@
-import java.lang.instrument.Instrumentation;
-import java.util.ArrayList;
-import java.util.Random;
-
 public class ChessGame {
-    Player white;
-    Player black;
-    Position currentPos;
+    private Player white;
+    private Player black;
+    private Position currentPos;
     // moves list?
 
 
-    public ChessGame(Player white, Player black, Position currentPos) {
+    ChessGame(Player white, Player black, Position currentPos) {
         this.white = white;
         this.black = black;
         this.currentPos = currentPos;
@@ -38,33 +34,6 @@ public class ChessGame {
             }
             chess.currentPos = chess.currentPos.result(move);
         }
-
-
-
-
-//
-//        ArrayList<Move> legalMoves = pos.getLegalMoves(Color.WHITE);
-//
-//        for (int i = 0; i < le1galMoves.size(); i++) {
-//            Move m = legalMoves.get(i);
-//            pos.result(m);
-//            System.out.println(pos);
-//            pos = new Position(savedpos.getBoard());
-//       }
-
-//        legalMoves = pos.getLegalMoves(Color.BLACK);
-//
-//        for (int i = 0; i < legalMoves.size(); i++) {
-//            Move m = legalMoves.get(i);
-//            pos.result(m);
-//            System.out.println(pos);
-//            pos = new Position();
-//        }
-
-
-
-
-
 
     }
 

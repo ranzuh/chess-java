@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class HumanPlayer extends Player {
 
-    public HumanPlayer(String name) {
+    HumanPlayer(String name) {
         super(name);
     }
 
@@ -14,7 +14,7 @@ public class HumanPlayer extends Player {
 
         System.out.println(pos);
 
-        Move move = null;
+        Move move;
 
         boolean repeat = true;
 

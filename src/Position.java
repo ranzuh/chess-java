@@ -1,19 +1,11 @@
-import javafx.geometry.Pos;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Position {
     private Square[][] board;
-
-    public Color getMovesNext() {
-        return movesNext;
-    }
-
     private Color movesNext;
 
     // initial position (state)
-    public Position() {
+    Position() {
         movesNext = Color.WHITE;
 
         board = new Square[8][8];
@@ -59,7 +51,7 @@ public class Position {
     }
 
     // copy position with this constructor
-    public Position(Position pos) {
+    Position(Position pos) {
         Square[][] boardCopy = new Square[8][8];
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -70,7 +62,7 @@ public class Position {
         this.movesNext = pos.movesNext;
     }
 
-    public Position result(Move move) {
+    Position result(Move move) {
         Position posCopy = new Position(this);
 
         Piece p = posCopy.board[move.oldY][move.oldX].getPiece();
@@ -87,11 +79,15 @@ public class Position {
         return posCopy;
     }
 
-    public Piece getPieceAt(int x, int y) {
+    Color getMovesNext() {
+        return movesNext;
+    }
+
+    Piece getPieceAt(int x, int y) {
         return board[y][x].getPiece();
     }
 
-    public Location getPieceLocation(Piece piece) {
+    Location getPieceLocation(Piece piece) {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 if (!board[i][j].isEmpty()) {
@@ -106,7 +102,7 @@ public class Position {
         return null;
     }
 
-    public ArrayList<Piece> getPieces() {
+    ArrayList<Piece> getPieces() {
         ArrayList<Piece> pieces = new ArrayList<>();
 
         for (int i = 0; i < 8; i++) {
@@ -301,14 +297,17 @@ public class Position {
         sb.append("  a b c d e f g h \n");
         return sb.toString();
     }
-}
 
-class Location {
-    int x;
-    int y;
+    class Location {
+        int x;
+        int y;
 
-    public Location(int x, int y) {
-        this.x = x;
-        this.y = y;
+        public Location(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
     }
+
 }
+
+

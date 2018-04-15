@@ -2,7 +2,7 @@ public class Piece {
     Color color;
     Type type;
 
-    public Piece(Color color, Type type) {
+    Piece(Color color, Type type) {
         this.color = color;
         this.type = type;
     }
