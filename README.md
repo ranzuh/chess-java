@@ -1,4 +1,5 @@
 # shakki-java
 Tekstipohjainen shakki Javalla
 
-Kesken
+Käynnistys ChessGame.java tiedostosta.
+
