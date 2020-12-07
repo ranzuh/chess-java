@@ -1,6 +1,5 @@
-# shakki-java
-Tekstipohjainen shakki Javalla
+# chess-java
 
-Käynnistys ChessGame.java tiedostosta.
+Text based chess written with Java. It was a first year programming project for university course.
 
-Projekti on vielä kesken.
+Run ChessGame.java to start.
